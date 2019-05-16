@@ -85,10 +85,14 @@ public class WeightRoundRobin<T> {
      * @return 移除结果
      */
     public boolean remove(T element) {
+        if (null == element) {
+            throw new NullPointerException();
+        }
+
 
         if (null == this.nodes
                 || this.nodes.size() == 0
-                || this.nodes.contains(element)) {
+                || this.removedNodes.contains(element)) {
             return true;
         }
 
@@ -126,6 +130,11 @@ public class WeightRoundRobin<T> {
      */
     public boolean attach(T element, int weight) {
         Node<T> node = new Node<>(element, weight);
+
+        if (this.nodes.contains(node)) {
+            return true;
+        }
+
         Lock lock = this.readWriteLock.writeLock();
         boolean locked = false;
         try {
