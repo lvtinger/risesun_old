@@ -2,6 +2,8 @@ package org.risesun.data.core.source;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -20,6 +22,8 @@ public class WeightRoundRobin<T> {
     private List<Node<T>> nodes;
 
     private int totalWeight;
+
+    private Set<T> removedNodes = new ConcurrentSkipListSet<>();
 
     /**
      * 构造函数
@@ -82,7 +86,9 @@ public class WeightRoundRobin<T> {
      */
     public boolean remove(T element) {
 
-        if(null == this.nodes || this.nodes.size() == 0){
+        if (null == this.nodes
+                || this.nodes.size() == 0
+                || this.nodes.contains(element)) {
             return true;
         }
 
@@ -94,6 +100,9 @@ public class WeightRoundRobin<T> {
                     this.nodes.forEach(Node::reload);
                     this.totalWeight = nodes.stream().mapToInt(Node::getDefaultWeight).sum();
                 }
+
+                this.removedNodes.add(element);
+
                 return true;
             } else {
                 return false;
@@ -131,6 +140,7 @@ public class WeightRoundRobin<T> {
                     this.nodes.add(node);
                     this.totalWeight = this.nodes.stream().mapToInt(Node::getDefaultWeight).sum();
                 }
+                this.removedNodes.remove(element);
                 return true;
             } else {
                 return false;
@@ -143,6 +153,5 @@ public class WeightRoundRobin<T> {
             }
         }
     }
-
 
 }
