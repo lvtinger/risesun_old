@@ -11,6 +11,7 @@
     
     <modules>
         <module>risesun-data</module>
+        <module>risesun-model</module>
     </modules>
 
     <properties>
