@@ -15,7 +15,7 @@ public class RepositoryScannerConfigurer
         implements BeanDefinitionRegistryPostProcessor, ApplicationContextAware {
     private ApplicationContext applicationContext;
 
-    private String packageName;
+    private String[] packages;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -27,7 +27,7 @@ public class RepositoryScannerConfigurer
             throws BeansException {
         RepositoryScanner scanner = new RepositoryScanner(registry);
         scanner.setResourceLoader(this.applicationContext);
-        scanner.doScan(packageName);
+        scanner.doScan(packages);
     }
 
     @Override

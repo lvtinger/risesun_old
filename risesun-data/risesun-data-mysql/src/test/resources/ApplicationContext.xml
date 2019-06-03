@@ -7,7 +7,11 @@
     <context:component-scan base-package="org.risesun.data.mysql"/>
 
     <bean class="org.risesun.data.mysql.scanner.RepositoryScannerConfigurer">
-        <property name="packageName" value="org.risesun.data.mysql.test.repository"/>
+        <property name="packages">
+            <array>
+                <value>org.risesun.data.mysql.test.repository</value>
+            </array>
+        </property>
     </bean>
 
 </beans>
