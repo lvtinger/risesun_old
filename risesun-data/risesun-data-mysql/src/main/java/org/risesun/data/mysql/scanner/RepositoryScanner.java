@@ -37,8 +37,6 @@ public class RepositoryScanner extends ClassPathBeanDefinitionScanner {
             definition.getConstructorArgumentValues()
                     .addGenericArgumentValue(definition.getBeanClassName());
 
-            //definition.getPropertyValues().add("repositoryClass", definition.getBeanClass());
-
             definition.setBeanClass(RepositoryFactoryBean.class);
 
             this.getRegistry().registerBeanDefinition(holder.getBeanName(), definition);
