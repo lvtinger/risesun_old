@@ -1,11 +1,15 @@
 package org.risesun.data.core.repository;
 
+import org.risesun.model.document.Document;
+
 import java.io.Serializable;
 
-public abstract class AbstractRepository<T extends Serializable, D extends Serializable> {
-    protected abstract String calculateSource(T document);
+public abstract class AbstractRepository<D extends Document<Id>, Id extends Serializable> {
+    public abstract Document create(D document);
 
-    protected abstract String calculateBase(T document);
+    public abstract Document update(D document);
 
-    protected abstract String calculateTable(T document);
+    public abstract Document delete(D document);
+
+    public abstract Document getById(Id id);
 }
