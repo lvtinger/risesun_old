@@ -12,6 +12,7 @@
     <modules>
         <module>risesun-data</module>
         <module>risesun-model</module>
+        <module>risesun-common</module>
     </modules>
 
     <properties>
