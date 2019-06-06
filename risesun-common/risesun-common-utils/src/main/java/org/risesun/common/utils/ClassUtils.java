@@ -2,10 +2,9 @@ package org.risesun.common.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ClassUtils {
 
@@ -21,7 +20,6 @@ public class ClassUtils {
         }
 
         return loader;
-
     }
 
     public static Class<?> getClassByName(String className) {
@@ -114,7 +112,8 @@ public class ClassUtils {
         return classes;
     }
 
-    private static void doScanDirectory(Set<Class<?>> classes, ClassFilter filter, String $package, String path) {
+    private static void doScanDirectory(
+            Set<Class<?>> classes, ClassFilter filter, String $package, String path) {
         File directory = new File(path);
         if (!directory.exists() || !directory.isDirectory()) {
             return;
@@ -139,5 +138,35 @@ public class ClassUtils {
                 }
             }
         }
+    }
+
+    public List<Field> scanFields(Class<?> type) {
+        Class<?> current = type;
+        List<Field> list = new ArrayList<>();
+        while (!current.equals(Object.class)) {
+            Field[] fields = current.getDeclaredFields();
+            if (fields.length > 0) {
+                list.addAll(Arrays.asList(fields));
+            }
+            current = type.getSuperclass();
+        }
+
+        return list;
+    }
+
+    public static List<Field> scanFields(Class<?> type, FieldFilter fieldFilter) {
+        Class<?> current = type;
+        List<Field> list = new ArrayList<>();
+        while (!current.equals(Object.class)) {
+            Field[] fields = current.getDeclaredFields();
+            for (Field field : fields) {
+                if (fieldFilter.math(field)) {
+                    list.add(field);
+                }
+            }
+            current = type.getSuperclass();
+        }
+
+        return list;
     }
 }

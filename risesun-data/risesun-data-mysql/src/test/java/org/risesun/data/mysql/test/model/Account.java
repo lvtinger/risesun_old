@@ -22,5 +22,5 @@ public class Account implements Serializable {
     private Integer status;
     private Date createTime;
     private Date updateTime;
-
+    private Boolean disabled;
 }
