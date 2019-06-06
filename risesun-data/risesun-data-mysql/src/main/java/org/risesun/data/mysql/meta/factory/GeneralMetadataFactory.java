@@ -1,6 +1,8 @@
 package org.risesun.data.mysql.meta.factory;
 
 import org.risesun.common.utils.ClassUtils;
+import org.risesun.data.mysql.annotation.CacheVersion;
+import org.risesun.data.mysql.annotation.Database;
 import org.risesun.data.mysql.annotation.Table;
 import org.risesun.data.mysql.meta.bean.Metadata;
 import org.risesun.data.mysql.meta.bean.Property;
@@ -16,12 +18,13 @@ public class GeneralMetadataFactory implements MetadataFactory {
     private PropertyFilter filter = new PropertyFilter();
     private PropertyFactory propertyFactory = new GeneralPropertyFactory();
 
-
     public Metadata generate(Class<? extends Serializable> type) {
         Metadata metadata = new Metadata();
         metadata.setMetadataType(type);
+        database(metadata);
         constructor(metadata);
         properties(metadata);
+        cache(metadata);
         return metadata;
     }
 
@@ -29,6 +32,8 @@ public class GeneralMetadataFactory implements MetadataFactory {
         Class<?> type = metadata.getMetadataType();
         Table table = type.getDeclaredAnnotation(Table.class);
         metadata.setTableName(table.value());
+        Database database = type.getDeclaredAnnotation(Database.class);
+        metadata.setDatabase(database.value());
     }
 
     private void constructor(Metadata metadata) {
@@ -61,5 +66,11 @@ public class GeneralMetadataFactory implements MetadataFactory {
                 metadata.getDefaultValueProperties().add(property);
             }
         }
+    }
+
+    private void cache(Metadata metadata) {
+        Class<?> type = metadata.getMetadataType();
+        CacheVersion cacheVersion = type.getDeclaredAnnotation(CacheVersion.class);
+        metadata.setCacheVersion(cacheVersion.value());
     }
 }

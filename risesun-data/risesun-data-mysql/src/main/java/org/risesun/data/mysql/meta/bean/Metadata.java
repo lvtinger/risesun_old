@@ -17,6 +17,8 @@ public class Metadata {
     private Class<?> metadataType;
     private String metadataName;
 
+    private String cacheVersion;
+
     private String database;
     private String tableName;
     private Property primaryKey;
