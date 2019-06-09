@@ -27,5 +27,6 @@ public class MysqlTest {
 
         UserService userService = context.getBean(UserService.class);
         userService.create(account);
+
     }
 }

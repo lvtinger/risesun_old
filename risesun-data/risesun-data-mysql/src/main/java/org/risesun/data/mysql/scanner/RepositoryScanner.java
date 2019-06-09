@@ -31,16 +31,11 @@ public class RepositoryScanner extends ClassPathBeanDefinitionScanner {
         Set<BeanDefinitionHolder> beanDefinitionHolders = super.doScan(basePackages);
 
         for (BeanDefinitionHolder holder : beanDefinitionHolders) {
-
             GenericBeanDefinition definition = (GenericBeanDefinition) holder.getBeanDefinition();
-
             definition.getConstructorArgumentValues()
                     .addGenericArgumentValue(definition.getBeanClassName());
-
             definition.setBeanClass(RepositoryFactoryBean.class);
-
             this.getRegistry().registerBeanDefinition(holder.getBeanName(), definition);
-
             definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
         }
 

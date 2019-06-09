@@ -11,6 +11,7 @@ public class RepositoryProxy implements InvocationHandler {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T instance(Class<T> proxyInterface) {
         ClassLoader classLoader = proxyInterface.getClassLoader();
         Class[] interfaces = new Class[]{proxyInterface};

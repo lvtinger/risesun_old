@@ -31,7 +31,6 @@ public class Metadata {
     private Map<String, Invoker> setterInvoker = new HashMap<>();
     private List<Property> defaultValueProperties = new ArrayList<>();
 
-
     public Metadata() {
     }
 
