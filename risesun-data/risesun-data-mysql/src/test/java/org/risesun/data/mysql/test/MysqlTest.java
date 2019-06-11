@@ -35,4 +35,10 @@ public class MysqlTest {
     userService.create(account);*/
 
     }
+
+    @Test
+    public void getById() throws SQLException, ClassNotFoundException {
+        AccountDao dao = new AccountDao();
+        System.out.println(dao.getById(8L));
+    }
 }

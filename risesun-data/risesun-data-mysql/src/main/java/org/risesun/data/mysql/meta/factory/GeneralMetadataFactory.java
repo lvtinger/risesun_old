@@ -3,14 +3,17 @@ package org.risesun.data.mysql.meta.factory;
 import org.risesun.common.utils.ClassUtils;
 import org.risesun.data.mysql.annotation.CacheVersion;
 import org.risesun.data.mysql.annotation.Database;
+import org.risesun.data.mysql.annotation.Id;
 import org.risesun.data.mysql.annotation.Table;
 import org.risesun.data.mysql.meta.bean.Metadata;
+import org.risesun.data.mysql.meta.bean.PrimaryKey;
 import org.risesun.data.mysql.meta.bean.Property;
 import org.risesun.data.mysql.support.PropertyFilter;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.List;
 
 public class GeneralMetadataFactory implements MetadataFactory {
@@ -42,9 +45,15 @@ public class GeneralMetadataFactory implements MetadataFactory {
         for (Constructor<?> constructor : constructors) {
             if (constructor.getParameterTypes().length == 0) {
                 int modifiers = constructor.getModifiers();
-                metadata.setDefaultConstructor(constructor);
-                break;
+                if (Modifier.isPublic(modifiers)) {
+                    metadata.setDefaultConstructor(constructor);
+                    break;
+                }
             }
+        }
+
+        if (metadata.getDefaultConstructor() == null) {
+            throw new RuntimeException();
         }
     }
 
@@ -59,11 +68,16 @@ public class GeneralMetadataFactory implements MetadataFactory {
             metadata.getSetterInvoker().put(propertyName, property.getSetter());
             metadata.getPropertyMapping().put(propertyName, property.getColumnName());
             metadata.getColumnMapping().put(property.getColumnName(), propertyName);
-            if (property.isPrimaryKey()) {
-                metadata.setPrimaryKey(property);
-            }
             if (property.getGenerator() != null) {
                 metadata.getDefaultValueProperties().add(property);
+            }
+
+            Id id = field.getDeclaredAnnotation(Id.class);
+            if (null != id) {
+                PrimaryKey primaryKey = new PrimaryKey();
+                primaryKey.setProperty(property);
+                primaryKey.setMode(id.mode());
+                metadata.setPrimaryKey(primaryKey);
             }
         }
     }

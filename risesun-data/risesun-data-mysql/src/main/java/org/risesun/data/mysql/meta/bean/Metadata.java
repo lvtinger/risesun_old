@@ -21,7 +21,7 @@ public class Metadata {
 
     private String database;
     private String tableName;
-    private Property primaryKey;
+    private PrimaryKey primaryKey;
     private Map<String, String> columnMapping = new HashMap<>();
 
     private Constructor<?> defaultConstructor;

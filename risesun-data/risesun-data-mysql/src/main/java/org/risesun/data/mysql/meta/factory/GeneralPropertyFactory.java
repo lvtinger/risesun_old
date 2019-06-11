@@ -3,7 +3,6 @@ package org.risesun.data.mysql.meta.factory;
 import org.risesun.common.utils.StringUtils;
 import org.risesun.data.mysql.annotation.Column;
 import org.risesun.data.mysql.annotation.DefaultValue;
-import org.risesun.data.mysql.annotation.Id;
 import org.risesun.data.mysql.meta.bean.Property;
 import org.risesun.data.mysql.reflection.invoker.MethodInvoker;
 
@@ -37,9 +36,6 @@ public class GeneralPropertyFactory implements PropertyFactory {
 
         property.setGetter(new MethodInvoker(getter));
         property.setSetter(new MethodInvoker(setter));
-
-        Id id = field.getDeclaredAnnotation(Id.class);
-        property.setPrimaryKey(null != id);
 
         Column column = field.getDeclaredAnnotation(Column.class);
         if (null != column) {
