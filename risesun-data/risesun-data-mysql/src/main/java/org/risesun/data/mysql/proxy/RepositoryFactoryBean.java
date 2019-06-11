@@ -12,7 +12,7 @@ public class RepositoryFactoryBean<T> implements FactoryBean<T> {
 
     @Override
     public T getObject() throws Exception {
-        return RepositoryProxy.instance(repositoryClass);
+        return RepositoryProxyFactory.instance(repositoryClass);
     }
 
     @Override

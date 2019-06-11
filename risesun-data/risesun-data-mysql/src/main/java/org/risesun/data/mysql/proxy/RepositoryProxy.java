@@ -1,21 +1,37 @@
 package org.risesun.data.mysql.proxy;
 
+import org.risesun.data.mysql.executor.MethodExecutor;
+import org.risesun.data.mysql.executor.MethodExecutorFactory;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RepositoryProxy implements InvocationHandler {
+
+    private Map<Method, MethodExecutor> cached = new ConcurrentHashMap<>();
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        System.out.println(method.getName());
-        return null;
+        if (proxy.getClass().equals(method.getDeclaringClass())) {
+            try {
+                return method.invoke(proxy, args);
+            } catch (Throwable t) {
+                throw new RuntimeException(t);
+            }
+        }
+
+        MethodExecutor executor = cachedMethod(method);
+        return executor.execute(args);
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T> T instance(Class<T> proxyInterface) {
-        ClassLoader classLoader = proxyInterface.getClassLoader();
-        Class[] interfaces = new Class[]{proxyInterface};
-        RepositoryProxy proxy = new RepositoryProxy();
-        return (T) Proxy.newProxyInstance(classLoader, interfaces, proxy);
+    private MethodExecutor cachedMethod(Method method) {
+        MethodExecutor executor = cached.get(method);
+        if (null == executor) {
+            executor = MethodExecutorFactory.build();
+            cached.put(method, executor);
+        }
+        return executor;
     }
 }
