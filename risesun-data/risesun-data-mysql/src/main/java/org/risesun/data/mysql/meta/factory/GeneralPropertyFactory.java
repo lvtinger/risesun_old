@@ -4,7 +4,8 @@ import org.risesun.common.utils.StringUtils;
 import org.risesun.data.mysql.annotation.Column;
 import org.risesun.data.mysql.annotation.DefaultValue;
 import org.risesun.data.mysql.meta.bean.Property;
-import org.risesun.data.mysql.reflection.invoker.MethodInvoker;
+import org.risesun.data.mysql.reflection.MethodInvoker;
+import org.risesun.data.mysql.type.TypeHandlerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -16,13 +17,13 @@ public class GeneralPropertyFactory implements PropertyFactory {
     public Property generate(Field field) {
         Class<?> type = field.getDeclaringClass();
         String name = calculateName(field.getName());
-        Method getter = null;
+        Method getter;
         try {
             getter = type.getDeclaredMethod("get" + name);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException();
         }
-        Method setter = null;
+        Method setter;
         try {
             setter = type.getDeclaredMethod("set" + name, field.getType());
         } catch (NoSuchMethodException e) {
@@ -33,6 +34,7 @@ public class GeneralPropertyFactory implements PropertyFactory {
         property.setPropertyName(field.getName());
         property.setColumnName(field.getName());
         property.setPropertyType(field.getType());
+        property.setTypeHandler(TypeHandlerFactory.getTypeHandler(field.getType()));
 
         property.setGetter(new MethodInvoker(getter));
         property.setSetter(new MethodInvoker(setter));

@@ -1,4 +1,4 @@
-package org.risesun.data.mysql.reflection.invoker;
+package org.risesun.data.mysql.reflection;
 
 import java.lang.reflect.Field;
 
@@ -10,7 +10,7 @@ public class GetterInvoker implements Invoker {
     }
 
     @Override
-    public Object invoke(Object target, Object[] args) throws IllegalAccessException {
+    public Object invoke(Object target, Object... args) throws IllegalAccessException {
         return this.field.get(target);
     }
 

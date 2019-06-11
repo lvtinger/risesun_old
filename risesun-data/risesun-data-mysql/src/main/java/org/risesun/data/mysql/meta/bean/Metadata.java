@@ -2,7 +2,7 @@ package org.risesun.data.mysql.meta.bean;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.risesun.data.mysql.reflection.invoker.Invoker;
+import org.risesun.data.mysql.reflection.Invoker;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

@@ -1,4 +1,4 @@
-package org.risesun.data.mysql.reflection.invoker;
+package org.risesun.data.mysql.reflection;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,7 +15,7 @@ public class MethodInvoker implements Invoker {
     }
 
     @Override
-    public Object invoke(Object target, Object[] args)
+    public Object invoke(Object target, Object... args)
             throws IllegalAccessException, InvocationTargetException {
         return this.method.invoke(target, args);
     }
