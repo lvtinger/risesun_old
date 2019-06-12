@@ -30,7 +30,7 @@ public class RepositoryProxy implements InvocationHandler {
         }
 
         StatementMethod executor = cached.get(method);
-        if(null == executor){
+        if (null == executor) {
             throw new RuntimeException();
         }
         return executor.execute(args);
