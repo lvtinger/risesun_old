@@ -1,6 +1,7 @@
 package org.risesun.data.mysql.scanner;
 
 import org.risesun.data.mysql.annotation.Repository;
+import org.risesun.data.mysql.context.DataContext;
 import org.risesun.data.mysql.proxy.RepositoryFactoryBean;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
@@ -14,10 +15,13 @@ import java.util.Set;
 
 public class RepositoryScanner extends ClassPathBeanDefinitionScanner {
 
-    private final static boolean USE_DEFAULT_FILTERS = true;
+    private static final boolean USE_DEFAULT_FILTERS = true;
 
-    public RepositoryScanner(BeanDefinitionRegistry registry) {
+    private DataContext context;
+
+    public RepositoryScanner(BeanDefinitionRegistry registry, DataContext context) {
         super(registry, USE_DEFAULT_FILTERS);
+        this.context = context;
     }
 
     @Override
@@ -35,6 +39,7 @@ public class RepositoryScanner extends ClassPathBeanDefinitionScanner {
             definition.getConstructorArgumentValues()
                     .addGenericArgumentValue(definition.getBeanClassName());
             definition.setBeanClass(RepositoryFactoryBean.class);
+            definition.getPropertyValues().addPropertyValue("context", this.context);
             this.getRegistry().registerBeanDefinition(holder.getBeanName(), definition);
             definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
         }
@@ -44,6 +49,7 @@ public class RepositoryScanner extends ClassPathBeanDefinitionScanner {
 
     @Override
     protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
-        return beanDefinition.getMetadata().isInterface() && beanDefinition.getMetadata().isIndependent();
+        return beanDefinition.getMetadata().isInterface()
+                && beanDefinition.getMetadata().isIndependent();
     }
 }

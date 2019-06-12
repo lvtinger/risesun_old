@@ -28,7 +28,7 @@ public class RepositoryScannerConfigurer
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry)
             throws BeansException {
-        RepositoryScanner scanner = new RepositoryScanner(registry);
+        RepositoryScanner scanner = new RepositoryScanner(registry, this.context);
         scanner.setResourceLoader(this.applicationContext);
         scanner.doScan(packages);
     }
