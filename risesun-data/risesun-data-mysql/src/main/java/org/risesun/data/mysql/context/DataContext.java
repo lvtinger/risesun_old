@@ -8,6 +8,4 @@ public interface DataContext {
     Metadata getMetadata(Class<?> type);
 
     Connection getConnection(String name);
-
-
 }

@@ -1,19 +1,18 @@
 package org.risesun.data.mysql.proxy;
 
 import org.risesun.data.mysql.context.DataContext;
-import org.risesun.data.mysql.executor.MethodExecutorFactory;
 import org.risesun.data.mysql.executor.StatementMethod;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class RepositoryProxy implements InvocationHandler {
 
     private final DataContext context;
 
-    private final Map<Method, StatementMethod> cached = new ConcurrentHashMap<>();
+    private final Map<Method, StatementMethod> cached = new HashMap<>();
 
     public RepositoryProxy(DataContext context) {
         this.context = context;
@@ -30,16 +29,10 @@ public class RepositoryProxy implements InvocationHandler {
             }
         }
 
-        StatementMethod executor = cachedMethod(method);
-        return executor.execute(args);
-    }
-
-    private StatementMethod cachedMethod(Method method) {
         StatementMethod executor = cached.get(method);
-        if (null == executor) {
-            executor = MethodExecutorFactory.build(method);
-            cached.put(method, executor);
+        if(null == executor){
+            throw new RuntimeException();
         }
-        return executor;
+        return executor.execute(args);
     }
 }
