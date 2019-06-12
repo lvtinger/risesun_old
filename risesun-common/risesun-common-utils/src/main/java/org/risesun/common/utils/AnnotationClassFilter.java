@@ -11,12 +11,12 @@ public class AnnotationClassFilter implements ClassFilter {
     }
 
     @Override
-    public boolean math(Class<?> $class) {
-        if (null == $class) {
+    public boolean math(Class<?> type) {
+        if (null == type) {
             return false;
         }
 
-        Annotation annotation = $class.getDeclaredAnnotation(this.annotation);
+        Annotation annotation = type.getDeclaredAnnotation(this.annotation);
         return annotation != null;
     }
 }

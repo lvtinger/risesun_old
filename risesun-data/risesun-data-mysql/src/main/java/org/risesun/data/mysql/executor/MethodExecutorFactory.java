@@ -1,7 +1,9 @@
 package org.risesun.data.mysql.executor;
 
+import java.lang.reflect.Method;
+
 public class MethodExecutorFactory {
-    public static MethodExecutor build() {
-        return new MethodExecutor();
+    public static StatementMethod build(Method method) {
+        return new StatementMethod();
     }
 }

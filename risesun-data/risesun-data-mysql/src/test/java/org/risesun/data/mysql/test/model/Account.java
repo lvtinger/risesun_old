@@ -3,13 +3,15 @@ package org.risesun.data.mysql.test.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.risesun.data.mysql.annotation.DB;
 import org.risesun.data.mysql.annotation.Id;
 import org.risesun.data.mysql.annotation.Table;
 
 import java.io.Serializable;
 import java.util.Date;
 
-@Table
+@DB(value = "cherry")
+@Table(value = "account")
 @Getter
 @Setter
 @ToString
@@ -25,4 +27,5 @@ public class Account implements Serializable {
     private Date createTime;
     private Date updateTime;
     private Boolean disabled;
+
 }

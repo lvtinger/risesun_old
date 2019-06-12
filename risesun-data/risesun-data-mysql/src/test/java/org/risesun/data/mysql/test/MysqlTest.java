@@ -22,13 +22,6 @@ public class MysqlTest {
         account.setUpdateTime(new Date());
         account.setDisabled(false);
 
-    /*AccountDao dao = new AccountDao();
-    boolean result = dao.create(account);
-
-    if (result) {
-        System.out.println(account);
-    }*/
-
         ApplicationContext context =
                 new ClassPathXmlApplicationContext("classpath:ApplicationContext.xml");
         AccountService accountService = context.getBean(AccountService.class);

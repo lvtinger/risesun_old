@@ -2,6 +2,7 @@ package org.risesun.data.mysql.scanner;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.risesun.data.mysql.context.DataContext;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -16,6 +17,8 @@ public class RepositoryScannerConfigurer
     private ApplicationContext applicationContext;
 
     private String[] packages;
+
+    private DataContext context;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

@@ -5,8 +5,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:component-scan base-package="org.risesun.data.mysql"/>
-
+    <bean name="dataContext" class="org.risesun.data.mysql.context.DefaultDataContext">
+        <property name="packages">
+            <array>
+                <value>org.risesun.data.mysql.test.model</value>
+            </array>
+        </property>
+    </bean>
     <bean class="org.risesun.data.mysql.scanner.RepositoryScannerConfigurer">
+        <property name="context" ref="dataContext"/>
         <property name="packages">
             <array>
                 <value>org.risesun.data.mysql.test.repository</value>
