@@ -1,28 +1,27 @@
 package org.risesun.data.mysql.proxy;
 
 import lombok.Setter;
-import org.risesun.data.mysql.context.DataContext;
 import org.springframework.beans.factory.FactoryBean;
 
 public class RepositoryFactoryBean<T> implements FactoryBean<T> {
 
-    private Class<T> repositoryClass;
+    private Class<T> type;
 
     @Setter
-    private DataContext context;
+    private RepositoryProxyFactory factory;
 
     public RepositoryFactoryBean(Class<T> repositoryClass) {
-        this.repositoryClass = repositoryClass;
+        this.type = repositoryClass;
     }
 
     @Override
     public T getObject() {
-        return RepositoryProxyFactory.instance(repositoryClass, context);
+        return factory.instance(type);
     }
 
     @Override
     public Class<?> getObjectType() {
-        return repositoryClass;
+        return type;
     }
 
     @Override

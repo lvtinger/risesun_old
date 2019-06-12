@@ -2,7 +2,9 @@ package org.risesun.data.mysql.scanner;
 
 import org.risesun.data.mysql.annotation.Repository;
 import org.risesun.data.mysql.context.DataContext;
+import org.risesun.data.mysql.proxy.DefaultRepositoryProxyFactory;
 import org.risesun.data.mysql.proxy.RepositoryFactoryBean;
+import org.risesun.data.mysql.proxy.RepositoryProxyFactory;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -32,6 +34,8 @@ public class RepositoryScanner extends ClassPathBeanDefinitionScanner {
     @Override
     protected Set<BeanDefinitionHolder> doScan(String... basePackages) {
 
+        RepositoryProxyFactory factory = new DefaultRepositoryProxyFactory(this.context);
+
         Set<BeanDefinitionHolder> beanDefinitionHolders = super.doScan(basePackages);
 
         for (BeanDefinitionHolder holder : beanDefinitionHolders) {
@@ -39,7 +43,7 @@ public class RepositoryScanner extends ClassPathBeanDefinitionScanner {
             definition.getConstructorArgumentValues()
                     .addGenericArgumentValue(definition.getBeanClassName());
             definition.setBeanClass(RepositoryFactoryBean.class);
-            definition.getPropertyValues().addPropertyValue("context", this.context);
+            definition.getPropertyValues().addPropertyValue("factory", factory);
             this.getRegistry().registerBeanDefinition(holder.getBeanName(), definition);
             definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
         }
