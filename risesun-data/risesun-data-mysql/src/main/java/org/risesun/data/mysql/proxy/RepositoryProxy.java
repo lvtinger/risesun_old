@@ -5,17 +5,17 @@ import org.risesun.data.mysql.executor.StatementMethod;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
 
 public class RepositoryProxy implements InvocationHandler {
 
     private final DataContext context;
 
-    private final Map<Method, StatementMethod> cached = new HashMap<>();
+    private final Map<Method, StatementMethod> cached;
 
-    public RepositoryProxy(DataContext context) {
+    public RepositoryProxy(DataContext context, Map<Method, StatementMethod> cached) {
         this.context = context;
+        this.cached = cached;
     }
 
     @Override

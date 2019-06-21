@@ -3,6 +3,7 @@ package org.risesun.common.utils;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.*;
 
@@ -169,4 +170,24 @@ public class ClassUtils {
 
         return list;
     }
+
+    public static List<Method> scanMethod(Class<?> type) {
+        Class<?> current = type;
+        List<Method> list = new ArrayList<>();
+        while (!current.equals(Object.class)) {
+            Method[] methods = current.getDeclaredMethods();
+            if (methods.length > 0) {
+                list.addAll(Arrays.asList(methods));
+            }
+            current = type.getSuperclass();
+        }
+        return list;
+    }
+
+   /* public static Type scanSuperInterface(Class<?> type, Class<?> $super) {
+        Type[] interfaces = type.getGenericInterfaces();
+        for (Type $interface : interfaces) {
+            
+        }
+    }*/
 }

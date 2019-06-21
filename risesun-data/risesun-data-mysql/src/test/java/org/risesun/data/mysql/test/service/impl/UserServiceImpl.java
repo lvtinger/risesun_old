@@ -18,11 +18,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(Account account) {
-        accountRepository.create(account);
+        //accountRepository.create(account);
     }
 
     @Override
     public void safeProfile(Profile profile) {
-        profileRepository.create(profile);
+        //profileRepository.create(profile);
     }
 }

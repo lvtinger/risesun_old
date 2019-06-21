@@ -2,7 +2,7 @@ package org.risesun.data.mysql.meta.factory;
 
 import org.risesun.common.utils.ClassUtils;
 import org.risesun.data.mysql.annotation.CacheVersion;
-import org.risesun.data.mysql.annotation.DB;
+import org.risesun.data.mysql.annotation.Database;
 import org.risesun.data.mysql.annotation.Id;
 import org.risesun.data.mysql.annotation.Table;
 import org.risesun.data.mysql.meta.bean.Metadata;
@@ -34,7 +34,7 @@ public class GeneralMetadataFactory implements MetadataFactory {
         Class<?> type = metadata.getMetadataType();
         Table table = type.getDeclaredAnnotation(Table.class);
         metadata.setTableName(table.value());
-        DB database = type.getDeclaredAnnotation(DB.class);
+        Database database = type.getDeclaredAnnotation(Database.class);
         metadata.setDatabase(database.value());
     }
 

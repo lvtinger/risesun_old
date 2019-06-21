@@ -7,8 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface DB {
+public @interface Database {
     String value();
-
     boolean sharding() default false;
 }
