@@ -33,6 +33,6 @@ public class RepositoryProxy implements InvocationHandler {
         if (null == executor) {
             throw new RuntimeException();
         }
-        return executor.execute(args);
+        return null;
     }
 }
