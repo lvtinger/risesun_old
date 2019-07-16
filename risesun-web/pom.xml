@@ -16,6 +16,4 @@
         <module>risesun-web-mvc</module>
         <module>risesun-web-jetty</module>
     </modules>
-
-
 </project>
