@@ -20,7 +20,7 @@
         <risesun.version>1.0</risesun.version>
         <spring.version>5.0.10.RELEASE</spring.version>
         <lombok.version>1.18.8</lombok.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencies>
